@@ -16,118 +16,109 @@
 
 
 #include <Adafruit_Fingerprint.h>
-
-
+#include <String.h>
 #include <SoftwareSerial.h>
 
-/** Change this to true to print bluetooth output to serial monitor. Must be set to false otherwise **/
-boolean serial_debug = true;
 
-// BLE Communication
-SoftwareSerial bluetoothLE(3,4); //RX,TX on Arduino
-int incoming_command;
-int current_command = 'L';
+/** Change this to true to print bluetooth output to serial monitor. Must be set to false otherwise to avoid interference w/ Bluetooth**/
+boolean serial_debug = false;
 
 
 // Fingerprint Sensor
 SoftwareSerial fingerSerial(4, 5);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&fingerSerial);
 
+// BLE Communication
+//SoftwareSerial bluetoothLE(2,3); //RX,TX on Arduino
+int incoming_command;
+int current_command = 'X';
+long loop_timer;
+
+
 // Solenoid Lock
 int verifyLED = 6;
-String lockStatus = "LOCKED";
+//String lockStatus = "LOCKED";
 boolean isLocked = true;    //This should always match lockStatus. Quicker to use boolean than compare string every time
-boolean statusConfirmed = false;
+boolean updateConfirmed = false;
+
 
 void setup()  
 {
-
-  //Serial and Bluetooth Communication Initialization
-  bluetoothLE.begin(9600);
-  delay(1000);
-  bluetoothLE.write("AT+NAMEDoorLock");
-  if (serial_debug){ Serial.begin(9600); }
   
+   //Serial and Bluetooth Communication Initialization
+  Serial.begin(9600);
+  delay(1000);
+  Serial.print("AT+NAMEDoorLock");
+  delay(1000);
 
   
   //Fingerprint scanner initialization
   finger.begin(57600); 
   if (finger.verifyPassword() && serial_debug) { 
+    if(serial_debug){
     Serial.print("Sensor contains "); 
     finger.getTemplateCount();
     Serial.print(finger.templateCount); 
-    Serial.println(" templates");}   //These should never execute
+    Serial.println(" templates");
+    }   //These should never execute
+  }
   else { 
-      Serial.println("Did not find fingerprint sensor."); 
+      if(serial_debug){ Serial.println("Did not find fingerprint sensor."); }
     }
-  
+
   //Lock initialization
   pinMode(verifyLED,OUTPUT);
-
+  doLock();
+  
 }//End setup
 
 void loop()                     // run over and over again
 {
    //--------READ INCOMING COMMAND TO SEE IF WE SHOULD UNLOCK VIA PASSCODE--------//
-    if (bluetoothLE.available() > 0){
-     incoming_command = bluetoothLE.read();
-     if((isWhitespace(incoming_command) == false) && (isAlpha(incoming_command)==true)){
+    if (Serial.available()){
+     incoming_command = Serial.read();
+     if(serial_debug){ Serial.println("Bluetooth is ready"); }
+     if(isWhitespace(incoming_command) == false){
         current_command = incoming_command;
+        if(serial_debug) { Serial.println(current_command); }
      }
     }
-
+    
+  
+  
   //--------CHECK FINGERPRINT SENSOR--------//
   int id = getFingerprintIDez();
-  if(id != -1){
-    doUnlock();
+   
+  
+  if(id != -1){ //Tell the phone we are unlocking, the phone will then send 'U' back to the Arduino to unlock it. Phone = master. Arduino = slave
+     if(isLocked) { Serial.print("UNLOCK"); }
+     else {  Serial.print("LOCK"); }
   }
   else if(current_command == 'U'){
-    doUnlock();
+     doUnlock();   
   }
-  else if(current_command == 'C'){
-    statusConfirmed = true;
-  }
-  else{
-    doLock();
+  else if(current_command == 'L'){
+     doLock();   
   }
 
-  
-  if(!statusConfirmed){ bluetoothLE.print(lockStatus); }  //Keep sending the lock status until we recieve a callback that we have acknowlegded it
-  //delay(50);           
+  //delay(50);             
 
 }//End loop
 
-//Unlock door if it is currently locked
+
+//Unlock door if it is currently locked -> returns true if the door executes unlocking
 void doUnlock(){
-  if(isLocked){
-    digitalWrite(verifyLED,HIGH);
-    delay(250);
-    digitalWrite(verifyLED,LOW);
-    isLocked = false;
-    lockStatus = "UNLOCKED";
-    statusConfirmed = false;
-  }
+   isLocked = false;
+   digitalWrite(verifyLED,HIGH);
 }
 
-//Lock door if it is currently unlocked
+//Lock door if it is currently unlocked -> returns true if the door executes locking
 void doLock(){ 
-  if(!isLocked){
-    digitalWrite(verifyLED,HIGH);
-    delay(50);
-    digitalWrite(verifyLED,LOW);
-    digitalWrite(verifyLED,HIGH);
-    delay(50);
-    digitalWrite(verifyLED,LOW);
-    digitalWrite(verifyLED,HIGH);
-    delay(50);
-    digitalWrite(verifyLED,LOW);
-    isLocked = true;
-    lockStatus = "LOCKED";
-    statusConfirmed = false;
-  }
+   isLocked = true;
+   digitalWrite(verifyLED,LOW);
 }
 
-//Verify/Deny fingerprint
+// Verify/Deny fingerprint
 int getFingerprintIDez() {
   uint8_t p = finger.getImage();
   if (p != FINGERPRINT_OK)  return -1;
@@ -138,8 +129,6 @@ int getFingerprintIDez() {
   p = finger.fingerFastSearch();
   if (p != FINGERPRINT_OK)  return -1;
   
-  // found a match!
-  Serial.print("Found ID #"); Serial.print(finger.fingerID); 
-  Serial.print(" with confidence of "); Serial.println(finger.confidence);
+  
   return finger.fingerID; 
 }

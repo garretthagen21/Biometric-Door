@@ -1,0 +1,597 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE1FC21E5206200445D3A /* AppDelegate.swift */; };
+		06EBE1FF21E5206200445D3A /* KeypadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE1FE21E5206200445D3A /* KeypadViewController.swift */; };
+		06EBE20221E5206200445D3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06EBE20021E5206200445D3A /* Main.storyboard */; };
+		06EBE20421E5206500445D3A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06EBE20321E5206500445D3A /* Images.xcassets */; };
+		06EBE20721E5206500445D3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06EBE20521E5206500445D3A /* LaunchScreen.storyboard */; };
+		06EBE21221E5206600445D3A /* BiometricDoor_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE21121E5206600445D3A /* BiometricDoor_iOSTests.swift */; };
+		06EBE21D21E5206600445D3A /* BiometricDoor_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE21C21E5206600445D3A /* BiometricDoor_iOSUITests.swift */; };
+		06EBE22B21E5213F00445D3A /* BluetoothSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE22A21E5213F00445D3A /* BluetoothSerial.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		06EBE20E21E5206500445D3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06EBE1F121E5206200445D3A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06EBE1F821E5206200445D3A;
+			remoteInfo = "BiometricDoor-iOS";
+		};
+		06EBE21921E5206600445D3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06EBE1F121E5206200445D3A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06EBE1F821E5206200445D3A;
+			remoteInfo = "BiometricDoor-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		06EBE1F921E5206200445D3A /* BiometricDoor-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BiometricDoor-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06EBE1FC21E5206200445D3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		06EBE1FE21E5206200445D3A /* KeypadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadViewController.swift; sourceTree = "<group>"; };
+		06EBE20121E5206200445D3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		06EBE20321E5206500445D3A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		06EBE20621E5206500445D3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		06EBE20821E5206500445D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06EBE20D21E5206500445D3A /* BiometricDoor-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BiometricDoor-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06EBE21121E5206600445D3A /* BiometricDoor_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricDoor_iOSTests.swift; sourceTree = "<group>"; };
+		06EBE21321E5206600445D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06EBE21821E5206600445D3A /* BiometricDoor-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BiometricDoor-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06EBE21C21E5206600445D3A /* BiometricDoor_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricDoor_iOSUITests.swift; sourceTree = "<group>"; };
+		06EBE21E21E5206600445D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06EBE22A21E5213F00445D3A /* BluetoothSerial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerial.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		06EBE1F621E5206200445D3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06EBE20A21E5206500445D3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06EBE21521E5206600445D3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		06EBE1F021E5206200445D3A = {
+			isa = PBXGroup;
+			children = (
+				06EBE1FB21E5206200445D3A /* BiometricDoor-iOS */,
+				06EBE21021E5206600445D3A /* BiometricDoor-iOSTests */,
+				06EBE21B21E5206600445D3A /* BiometricDoor-iOSUITests */,
+				06EBE1FA21E5206200445D3A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		06EBE1FA21E5206200445D3A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				06EBE1F921E5206200445D3A /* BiometricDoor-iOS.app */,
+				06EBE20D21E5206500445D3A /* BiometricDoor-iOSTests.xctest */,
+				06EBE21821E5206600445D3A /* BiometricDoor-iOSUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		06EBE1FB21E5206200445D3A /* BiometricDoor-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				06EBE1FC21E5206200445D3A /* AppDelegate.swift */,
+				06EBE1FE21E5206200445D3A /* KeypadViewController.swift */,
+				06EBE22A21E5213F00445D3A /* BluetoothSerial.swift */,
+				06EBE20021E5206200445D3A /* Main.storyboard */,
+				06EBE20321E5206500445D3A /* Images.xcassets */,
+				06EBE20521E5206500445D3A /* LaunchScreen.storyboard */,
+				06EBE20821E5206500445D3A /* Info.plist */,
+			);
+			path = "BiometricDoor-iOS";
+			sourceTree = "<group>";
+		};
+		06EBE21021E5206600445D3A /* BiometricDoor-iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				06EBE21121E5206600445D3A /* BiometricDoor_iOSTests.swift */,
+				06EBE21321E5206600445D3A /* Info.plist */,
+			);
+			path = "BiometricDoor-iOSTests";
+			sourceTree = "<group>";
+		};
+		06EBE21B21E5206600445D3A /* BiometricDoor-iOSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				06EBE21C21E5206600445D3A /* BiometricDoor_iOSUITests.swift */,
+				06EBE21E21E5206600445D3A /* Info.plist */,
+			);
+			path = "BiometricDoor-iOSUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		06EBE1F821E5206200445D3A /* BiometricDoor-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06EBE22121E5206600445D3A /* Build configuration list for PBXNativeTarget "BiometricDoor-iOS" */;
+			buildPhases = (
+				06EBE1F521E5206200445D3A /* Sources */,
+				06EBE1F621E5206200445D3A /* Frameworks */,
+				06EBE1F721E5206200445D3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BiometricDoor-iOS";
+			productName = "BiometricDoor-iOS";
+			productReference = 06EBE1F921E5206200445D3A /* BiometricDoor-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		06EBE20C21E5206500445D3A /* BiometricDoor-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06EBE22421E5206600445D3A /* Build configuration list for PBXNativeTarget "BiometricDoor-iOSTests" */;
+			buildPhases = (
+				06EBE20921E5206500445D3A /* Sources */,
+				06EBE20A21E5206500445D3A /* Frameworks */,
+				06EBE20B21E5206500445D3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06EBE20F21E5206500445D3A /* PBXTargetDependency */,
+			);
+			name = "BiometricDoor-iOSTests";
+			productName = "BiometricDoor-iOSTests";
+			productReference = 06EBE20D21E5206500445D3A /* BiometricDoor-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		06EBE21721E5206600445D3A /* BiometricDoor-iOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06EBE22721E5206600445D3A /* Build configuration list for PBXNativeTarget "BiometricDoor-iOSUITests" */;
+			buildPhases = (
+				06EBE21421E5206600445D3A /* Sources */,
+				06EBE21521E5206600445D3A /* Frameworks */,
+				06EBE21621E5206600445D3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06EBE21A21E5206600445D3A /* PBXTargetDependency */,
+			);
+			name = "BiometricDoor-iOSUITests";
+			productName = "BiometricDoor-iOSUITests";
+			productReference = 06EBE21821E5206600445D3A /* BiometricDoor-iOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		06EBE1F121E5206200445D3A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Garrett Hagen";
+				TargetAttributes = {
+					06EBE1F821E5206200445D3A = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					06EBE20C21E5206500445D3A = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 06EBE1F821E5206200445D3A;
+					};
+					06EBE21721E5206600445D3A = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 06EBE1F821E5206200445D3A;
+					};
+				};
+			};
+			buildConfigurationList = 06EBE1F421E5206200445D3A /* Build configuration list for PBXProject "BiometricDoor-iOS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 06EBE1F021E5206200445D3A;
+			productRefGroup = 06EBE1FA21E5206200445D3A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				06EBE1F821E5206200445D3A /* BiometricDoor-iOS */,
+				06EBE20C21E5206500445D3A /* BiometricDoor-iOSTests */,
+				06EBE21721E5206600445D3A /* BiometricDoor-iOSUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		06EBE1F721E5206200445D3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06EBE20721E5206500445D3A /* LaunchScreen.storyboard in Resources */,
+				06EBE20421E5206500445D3A /* Images.xcassets in Resources */,
+				06EBE20221E5206200445D3A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06EBE20B21E5206500445D3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06EBE21621E5206600445D3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		06EBE1F521E5206200445D3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06EBE1FF21E5206200445D3A /* KeypadViewController.swift in Sources */,
+				06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */,
+				06EBE22B21E5213F00445D3A /* BluetoothSerial.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06EBE20921E5206500445D3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06EBE21221E5206600445D3A /* BiometricDoor_iOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06EBE21421E5206600445D3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06EBE21D21E5206600445D3A /* BiometricDoor_iOSUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		06EBE20F21E5206500445D3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06EBE1F821E5206200445D3A /* BiometricDoor-iOS */;
+			targetProxy = 06EBE20E21E5206500445D3A /* PBXContainerItemProxy */;
+		};
+		06EBE21A21E5206600445D3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06EBE1F821E5206200445D3A /* BiometricDoor-iOS */;
+			targetProxy = 06EBE21921E5206600445D3A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		06EBE20021E5206200445D3A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06EBE20121E5206200445D3A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		06EBE20521E5206500445D3A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06EBE20621E5206500445D3A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		06EBE21F21E5206600445D3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		06EBE22021E5206600445D3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		06EBE22221E5206600445D3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZQ76B4GZJY;
+				INFOPLIST_FILE = "BiometricDoor-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GarrettHagen.BiometricDoor-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		06EBE22321E5206600445D3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZQ76B4GZJY;
+				INFOPLIST_FILE = "BiometricDoor-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GarrettHagen.BiometricDoor-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		06EBE22521E5206600445D3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZQ76B4GZJY;
+				INFOPLIST_FILE = "BiometricDoor-iOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GarrettHagen.BiometricDoor-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BiometricDoor-iOS.app/BiometricDoor-iOS";
+			};
+			name = Debug;
+		};
+		06EBE22621E5206600445D3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZQ76B4GZJY;
+				INFOPLIST_FILE = "BiometricDoor-iOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GarrettHagen.BiometricDoor-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BiometricDoor-iOS.app/BiometricDoor-iOS";
+			};
+			name = Release;
+		};
+		06EBE22821E5206600445D3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZQ76B4GZJY;
+				INFOPLIST_FILE = "BiometricDoor-iOSUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GarrettHagen.BiometricDoor-iOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "BiometricDoor-iOS";
+			};
+			name = Debug;
+		};
+		06EBE22921E5206600445D3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZQ76B4GZJY;
+				INFOPLIST_FILE = "BiometricDoor-iOSUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GarrettHagen.BiometricDoor-iOSUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "BiometricDoor-iOS";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		06EBE1F421E5206200445D3A /* Build configuration list for PBXProject "BiometricDoor-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06EBE21F21E5206600445D3A /* Debug */,
+				06EBE22021E5206600445D3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06EBE22121E5206600445D3A /* Build configuration list for PBXNativeTarget "BiometricDoor-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06EBE22221E5206600445D3A /* Debug */,
+				06EBE22321E5206600445D3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06EBE22421E5206600445D3A /* Build configuration list for PBXNativeTarget "BiometricDoor-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06EBE22521E5206600445D3A /* Debug */,
+				06EBE22621E5206600445D3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06EBE22721E5206600445D3A /* Build configuration list for PBXNativeTarget "BiometricDoor-iOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06EBE22821E5206600445D3A /* Debug */,
+				06EBE22921E5206600445D3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 06EBE1F121E5206200445D3A /* Project object */;
+}
