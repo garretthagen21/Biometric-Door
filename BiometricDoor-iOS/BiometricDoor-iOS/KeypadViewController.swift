@@ -14,16 +14,18 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     @IBOutlet weak var keypadNumbers: UIButton!
     @IBOutlet weak var bluetoothImage: UIImageView!
     @IBOutlet weak var bluetoothLabel: UILabel!
+    @IBOutlet var blurViews: [UIVisualEffectView]!
+    @IBOutlet weak var backgroundBlur: UIVisualEffectView!
+    @IBOutlet weak var backgroundImage: UIImageView!
     
     var currentEntry:[Int] = []
-    var password = "521769"
-    var isLocked = true
     var targetPeripheral:CBPeripheral?
-    
+    var currentSettings:Settings?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         serial = BluetoothSerial(delegate: self)
+        currentSettings = Settings()                //Get default settings
          NotificationCenter.default.addObserver(self, selector: #selector(KeypadViewController.reloadView), name: NSNotification.Name(rawValue: "reloadStartViewController"), object: nil)
     }
     
@@ -32,9 +34,48 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        backgroundImage.image = currentSettings!.backgroundImage
+        backgroundBlur.isHidden = currentSettings!.hideBlurBackground
+        
+        for blur in blurViews{
+            blur.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
+            blur.isHidden = currentSettings!.hideBlurItems
+        }
         reloadView()
     }
     
+    func displayUnlockActionSheet(_sender: Any){
+     
+        let unlockMenu = UIAlertController(title: nil, message:"Door Unlocked", preferredStyle: .actionSheet)
+        
+        unlockMenu.addAction(UIAlertAction(title: "🗝   Change Password", style: .default, handler:{ (UIAlertAction) in
+
+            self.displayUnlockActionSheet(_sender: self)
+        }))
+        unlockMenu.addAction(UIAlertAction(title: "✋🏻   Manage Fingerprints", style: .default, handler:{ (UIAlertAction) in
+     
+           self.displayUnlockActionSheet(_sender: self)
+        }))
+       
+        unlockMenu.addAction(UIAlertAction(title: "⏰   Timer Settings", style: .default, handler:{ (UIAlertAction) in
+            self.displayUnlockActionSheet(_sender: self)
+        }))
+        unlockMenu.addAction(UIAlertAction(title: "🌇   Customize Theme", style: .default, handler:{ (UIAlertAction) in
+           self.displayUnlockActionSheet(_sender: self)
+        }))
+      
+        unlockMenu.addAction(UIAlertAction(title: "🔒   Lock Door", style: .destructive, handler:{ (UIAlertAction) in
+            self.doLock()
+             self.reloadView()
+            //self.dismiss(animated:true,completion:nil)
+        }))
+        
+        // 5
+        self.present(unlockMenu, animated: true, completion: nil)
+       
+        
+        
+    }
     
     @IBAction func keypadButtonPressed(_ sender: UIButton) {
         
@@ -43,7 +84,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         }
         else{
             currentEntry.append(sender.tag)
-            if(currentEntry.count == password.count){
+            if(currentEntry.count == currentSettings!.masterPassword.count){
                 checkPassword()
                 currentEntry = []
                 return
@@ -53,12 +94,10 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     }
     
     func checkPassword(){
-        
-     
         var entryString:String = ""
         
         for entry in currentEntry{ entryString += String(entry) }
-        if entryString == password{ doUnlock() }
+        if entryString == currentSettings!.masterPassword{ doUnlock() }
         else{ doLock() }
     }
     
@@ -66,15 +105,27 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         serial.sendMessageToDevice("U")
         lockStatusImage.image = UIImage(named: "icons8-unlock-filled-100")
         for i in 0...self.bubbleEntries.count-1{ self.bubbleEntries[i].image = UIImage(named:"icons8-circle-filled-green-100") }
-        isLocked = false
+        backgroundBlur.isHidden = !currentSettings!.hideBlurBackground
+        currentSettings!.isLocked = false
+        //self.performSegue(withIdentifier: "UnlockedSegue", sender: nil)/
+        displayUnlockActionSheet(_sender: self)
+        
     }
-     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if (segue.identifier == "UnlockedSegue") {
+            let nextVC = segue.destination as! UnlockedViewController
+            nextVC.currentSettings = currentSettings
+            
+        }
+    }
     
     func doLock(){
         serial.sendMessageToDevice("L")
         lockStatusImage.image = UIImage(named: "icons8-lock-filled-100")
         for i in 0...self.bubbleEntries.count-1{ self.bubbleEntries[i].image = UIImage(named:"icons8-circle-filled-red-100") }
-        isLocked = true
+        backgroundBlur.isHidden = currentSettings!.hideBlurBackground
+        currentSettings!.isLocked = true
     }
     
     // Should be called 10s after we've begun scanning
@@ -82,6 +133,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     @objc func reloadView() {
        
         serial.delegate = self
+       
         //Check bluetooth status
         if serial.isReady {
             bluetoothImage.image = UIImage(named: "bluetoothgreen")
@@ -102,7 +154,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         
         
         //Show lock status
-        if(isLocked){ lockStatusImage.image = UIImage(named: "icons8-lock-filled-100") }
+        if(currentSettings!.isLocked){ lockStatusImage.image = UIImage(named: "icons8-lock-filled-100") }
         else{ lockStatusImage.image = UIImage(named: "icons8-unlock-filled-100") }
         
         //Draw the bubble entries
@@ -164,7 +216,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     
     func serialDidDiscoverPeripheral(_ peripheral: CBPeripheral, RSSI: NSNumber?) {
         
-        print(peripheral.name)
+        //print(peripheral.name)
         if targetPeripheral != nil{ return }
         
         if (peripheral.name == "DoorLock" || peripheral.name == "DSD TECH"){

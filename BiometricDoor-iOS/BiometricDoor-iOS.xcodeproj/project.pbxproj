@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		069B409021E6A2B60046512E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069B408F21E6A2B60046512E /* Settings.swift */; };
+		069B409421E6B56A0046512E /* UnlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069B409321E6B56A0046512E /* UnlockedViewController.swift */; };
 		06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE1FC21E5206200445D3A /* AppDelegate.swift */; };
 		06EBE1FF21E5206200445D3A /* KeypadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE1FE21E5206200445D3A /* KeypadViewController.swift */; };
 		06EBE20221E5206200445D3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06EBE20021E5206200445D3A /* Main.storyboard */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		069B408F21E6A2B60046512E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		069B409321E6B56A0046512E /* UnlockedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockedViewController.swift; sourceTree = "<group>"; };
 		06EBE1F921E5206200445D3A /* BiometricDoor-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BiometricDoor-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06EBE1FC21E5206200445D3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06EBE1FE21E5206200445D3A /* KeypadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadViewController.swift; sourceTree = "<group>"; };
@@ -100,7 +104,9 @@
 			isa = PBXGroup;
 			children = (
 				06EBE1FC21E5206200445D3A /* AppDelegate.swift */,
+				069B409321E6B56A0046512E /* UnlockedViewController.swift */,
 				06EBE1FE21E5206200445D3A /* KeypadViewController.swift */,
+				069B408F21E6A2B60046512E /* Settings.swift */,
 				06EBE22A21E5213F00445D3A /* BluetoothSerial.swift */,
 				06EBE20021E5206200445D3A /* Main.storyboard */,
 				06EBE20321E5206500445D3A /* Images.xcassets */,
@@ -259,8 +265,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				069B409421E6B56A0046512E /* UnlockedViewController.swift in Sources */,
 				06EBE1FF21E5206200445D3A /* KeypadViewController.swift in Sources */,
 				06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */,
+				069B409021E6A2B60046512E /* Settings.swift in Sources */,
 				06EBE22B21E5213F00445D3A /* BluetoothSerial.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
