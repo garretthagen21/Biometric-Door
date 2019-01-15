@@ -14,7 +14,18 @@
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-
+/*  ARDUINO ---> MODULE
+ *  
+ *  TX ------> HM-10 RX
+ *  RX ------> HM-10 TX
+ *  D2 ------> FP TX (Green) 
+ *  D3 ------> FP RX (Yellow)
+ *  D4 ------> Button NC (Blue)
+ *  D5 ------> Button LED (Green)
+ *  D6 ------> Lock+ (Red)
+ *  5V ------> HM-10 VCC
+ *  3v3 -----> FP VCC
+ */
 #include <Adafruit_Fingerprint.h>
 #include <String.h>
 #include <SoftwareSerial.h>
@@ -25,19 +36,20 @@ boolean serial_debug = false;
 
 
 // Fingerprint Sensor
-SoftwareSerial fingerSerial(4, 5);
+SoftwareSerial fingerSerial(2, 3);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&fingerSerial);
 
 // BLE Communication
-//SoftwareSerial bluetoothLE(2,3); //RX,TX on Arduino
 int incoming_command;
 int current_command = 'X';
 long loop_timer;
 
+//Lock Button
+int lockButton = 4;
+int buttonLED = 5;
 
 // Solenoid Lock
 int verifyLED = 6;
-//String lockStatus = "LOCKED";
 boolean isLocked = true;    //This should always match lockStatus. Quicker to use boolean than compare string every time
 boolean updateConfirmed = false;
 
@@ -66,8 +78,10 @@ void setup()
       if(serial_debug){ Serial.println("Did not find fingerprint sensor."); }
     }
 
-  //Lock initialization
+  //Lock & Button initialization
   pinMode(verifyLED,OUTPUT);
+  pinMode(buttonLED,OUTPUT);
+  pinMode(lockButton,INPUT_PULLUP);
   doLock();
   
 }//End setup
@@ -88,9 +102,9 @@ void loop()                     // run over and over again
   
   //--------CHECK FINGERPRINT SENSOR--------//
   int id = getFingerprintIDez();
-   
+  int buttonStatus = digitalRead(lockButton);
   
-  if(id != -1){ //Tell the phone we are unlocking, the phone will then send 'U' back to the Arduino to unlock it. Phone = master. Arduino = slave
+  if(id != -1 || buttonStatus == HIGH){ //Tell the phone we are unlocking, the phone will then send 'U' back to the Arduino to unlock it. Phone = master. Arduino = slave
      if(isLocked) { Serial.print("UNLOCK"); }
      else {  Serial.print("LOCK"); }
   }
@@ -109,13 +123,15 @@ void loop()                     // run over and over again
 //Unlock door if it is currently locked -> returns true if the door executes unlocking
 void doUnlock(){
    isLocked = false;
-   digitalWrite(verifyLED,HIGH);
+   digitalWrite(verifyLED,LOW);
+   digitalWrite(buttonLED,LOW);
 }
 
 //Lock door if it is currently unlocked -> returns true if the door executes locking
 void doLock(){ 
    isLocked = true;
-   digitalWrite(verifyLED,LOW);
+   digitalWrite(verifyLED,HIGH);
+   digitalWrite(buttonLED,HIGH);
 }
 
 // Verify/Deny fingerprint
@@ -128,7 +144,6 @@ int getFingerprintIDez() {
 
   p = finger.fingerFastSearch();
   if (p != FINGERPRINT_OK)  return -1;
-  
   
   return finger.fingerID; 
 }

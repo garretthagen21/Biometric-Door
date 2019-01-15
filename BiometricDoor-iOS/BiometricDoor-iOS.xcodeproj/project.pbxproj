@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06792E8F21ED99E100246E5A /* TimerSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06792E8E21ED99E100246E5A /* TimerSettingsViewController.swift */; };
 		069B409021E6A2B60046512E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069B408F21E6A2B60046512E /* Settings.swift */; };
 		069B409421E6B56A0046512E /* UnlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069B409321E6B56A0046512E /* UnlockedViewController.swift */; };
 		06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE1FC21E5206200445D3A /* AppDelegate.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06792E8E21ED99E100246E5A /* TimerSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingsViewController.swift; sourceTree = "<group>"; };
 		069B408F21E6A2B60046512E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		069B409321E6B56A0046512E /* UnlockedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockedViewController.swift; sourceTree = "<group>"; };
 		06EBE1F921E5206200445D3A /* BiometricDoor-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BiometricDoor-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 				069B408F21E6A2B60046512E /* Settings.swift */,
 				06EBE22A21E5213F00445D3A /* BluetoothSerial.swift */,
 				06EBE20021E5206200445D3A /* Main.storyboard */,
+				06792E8E21ED99E100246E5A /* TimerSettingsViewController.swift */,
 				06EBE20321E5206500445D3A /* Images.xcassets */,
 				06EBE20521E5206500445D3A /* LaunchScreen.storyboard */,
 				06EBE20821E5206500445D3A /* Info.plist */,
@@ -270,6 +273,7 @@
 				06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */,
 				069B409021E6A2B60046512E /* Settings.swift in Sources */,
 				06EBE22B21E5213F00445D3A /* BluetoothSerial.swift in Sources */,
+				06792E8F21ED99E100246E5A /* TimerSettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

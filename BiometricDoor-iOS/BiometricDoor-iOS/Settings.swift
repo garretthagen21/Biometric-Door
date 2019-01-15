@@ -18,7 +18,7 @@ class Settings {
     var masterPassword:String
     var backgroundImage:UIImage
     var timerOn:Bool
-    var timerMinutes:Int
+    var timerMinutes:Double
     var isLocked:Bool
 
     //Default settings
