@@ -9,12 +9,14 @@ import QuartzCore
 
 final class KeypadViewController: UIViewController, UITextFieldDelegate, BluetoothSerialDelegate {
     
+   
     
+    @IBOutlet weak var timerProgress: UIProgressView!
     @IBOutlet var changePasswordLabel: UILabel!
-    
     @IBOutlet weak var lockStatusImage: UIImageView!
     @IBOutlet var bubbleEntries: [UIImageView]!
-    @IBOutlet weak var keypadNumbers: UIButton!
+  
+    @IBOutlet var keypadNumbers: [UIButton]!
     @IBOutlet weak var bluetoothImage: UIImageView!
     @IBOutlet weak var bluetoothLabel: UILabel!
     @IBOutlet var blurViews: [UIVisualEffectView]!
@@ -27,6 +29,8 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     var changePasswordMode = false
     var passConfirmCount = 0
     var newPassword = ""
+    var countDownTimer:Timer?
+    var elapsedTime:Double = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,25 +46,41 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
  /****** UI FUNCTIONS *****/
     
     override func viewDidAppear(_ animated: Bool) {
-        setBackground()         //This method provides a somewhat hacky approach to maintaining the appropriate scene after returning from unlock action sheet
-        reloadView()
+        applyCurrentSettings()         //This method provides a somewhat hacky approach to maintaining the appropriate scene after returning from unlock action
     }
-    func setBackground(){
+    func applyCurrentSettings(){
+       
+        
         backgroundImage.image = currentSettings!.backgroundImage
         
+        //Blurs should be opposite
+        var keypadEffect = UIBlurEffect(style: .dark)
+        var backgroundEffect = UIBlurEffect(style: .light)
+        
+        if currentSettings!.darkMode{
+            backgroundEffect = UIBlurEffect(style: .dark)
+            keypadEffect = UIBlurEffect(style: .light)
+        }
+        
+        //Bluetooth & Keypad
         for blur in blurViews{
             blur.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
+            blur.effect = keypadEffect
             blur.isHidden = currentSettings!.hideBlurItems
         }
         
+        
+        //Background
+        backgroundBlur.effect = backgroundEffect
         if currentSettings!.isLocked{
             backgroundBlur.isHidden = currentSettings!.hideBlurBackground
         }
         else{
             backgroundBlur.isHidden = !currentSettings!.hideBlurBackground
-            drawBubbles(type: "green")
             displayUnlockActionSheet(_sender: self)
         }
+        
+        reloadView()
     }
     
     @objc func reloadView() {
@@ -86,7 +106,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         }
         
         
-        
+        //UI Stuff
         if currentSettings!.isLocked {
             lockStatusImage.image = UIImage(named: "icons8-lock-filled-100")
             if currentEntry.count == currentSettings!.masterPassword.count { drawBubbles(type:"red") }
@@ -137,22 +157,17 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     }
     
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if (segue.identifier == "TimerSegue") {
-            let nextVC = segue.destination as! TimerSettingsViewController
-            nextVC.currentSettings = currentSettings
-        }
-    }
     
-
+    
+   
     
 /***** PASSWORD VERIFICATION FUNCTIONS ******/
     
     func changePassword(turnOn:Bool){
         if turnOn{
             changePasswordMode = true
-            backgroundBlur.isHidden = true
+            for number in keypadNumbers { number.isHidden = false }
+            //backgroundBlur.isHidden = currentSettings!.hideBlurBackground
             backgroundImage.image = UIImage(named:"blackbackground")
             lockStatusImage.isHidden = true
             changePasswordLabel.isHidden = false
@@ -162,11 +177,12 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         }
         else{
             changePasswordMode = false
+            for number in keypadNumbers { number.isHidden = true }
             lockStatusImage.isHidden = false
             changePasswordLabel.isHidden = true
             passConfirmCount = 0
             backgroundImage.image = currentSettings!.backgroundImage
-            backgroundBlur.isHidden = false
+            //backgroundBlur.isHidden = !currentSettings!.hideBlurBackground
             newPassword = ""
         }
         
@@ -247,16 +263,18 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
 //***** UNLOCK/LOCK FUNCTIONS *****//
     
     func displayUnlockActionSheet(_sender: Any){
+       
         
         unlockMenu = UIAlertController(title: nil, message:"Door Unlocked", preferredStyle: .actionSheet)
         
         unlockMenu!.addAction(UIAlertAction(title: "🗝   Change Password", style: .default, handler:{ (UIAlertAction) in
             self.changePassword(turnOn:true)
             //self.displayUnlockActionSheet(_sender: self)
+            
         }))
         unlockMenu!.addAction(UIAlertAction(title: "✋🏻   Manage Fingerprints", style: .default, handler:{ (UIAlertAction) in
-            
-            self.displayUnlockActionSheet(_sender: self)
+            self.performSegue(withIdentifier: "FingerprintSegue", sender: self)
+           
         }))
         
         unlockMenu!.addAction(UIAlertAction(title: "⏰   Timer Settings", style: .default, handler:{ (UIAlertAction) in
@@ -264,9 +282,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
             
         }))
         unlockMenu!.addAction(UIAlertAction(title: "🌇   Customize Theme", style: .default, handler:{ (UIAlertAction) in
-            self.currentSettings!.hideBlurItems = !self.currentSettings!.hideBlurItems
-            self.setBackground()
-            self.displayUnlockActionSheet(_sender: self)
+                self.performSegue(withIdentifier: "ThemeSegue", sender: self)
         }))
         
         unlockMenu!.addAction(UIAlertAction(title: "🔒   Lock Door", style: .destructive, handler:{ (UIAlertAction) in
@@ -278,28 +294,53 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         // 5
         self.present(unlockMenu!, animated: true, completion: nil)
         
+     
         
-        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if (segue.identifier == "TimerSegue") {
+            let nextVC = segue.destination as! TimerSettingsViewController
+            nextVC.currentSettings = currentSettings
+        }
+        else if (segue.identifier == "ThemeSegue") {
+            let nextVC = segue.destination as! ThemeSettingsViewController
+            nextVC.currentSettings = currentSettings
+        }
+        else if (segue.identifier == "FingerprintSegue") {
+            let nextVC = segue.destination as! ManageFingerprintsViewController
+            nextVC.currentSettings = currentSettings
+            nextVC.selectedPeripheral = targetPeripheral
+        }
     }
     
     func doUnlock(){
         serial.sendMessageToDevice("U")
-        //lockStatusImage.image = UIImage(named: "icons8-unlock-filled-100")
-        //drawBubbles(type:"green")
-        if(currentSettings!.isLocked) { displayUnlockActionSheet(_sender: self) }
+
+       
+        if(currentSettings!.timerOn) {
+        countDownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(KeypadViewController.updateTimer), userInfo: nil, repeats: true)
+        }
+        if(currentSettings!.isLocked) {
+            displayUnlockActionSheet(_sender: self)
+            for number in keypadNumbers { number.isHidden = true }
+        }
         backgroundBlur.isHidden = !currentSettings!.hideBlurBackground
         currentSettings!.isLocked = false
         reloadView()
-        
     }
   
     
     func doLock(){
         serial.sendMessageToDevice("L")
-        //lockStatusImage.image = UIImage(named: "icons8-lock-filled-100")
-        //drawBubbles(type:"red")
+   
+        if countDownTimer != nil { endTimer() }
         if changePasswordMode { changePassword(turnOn:false)}
-        if(!currentSettings!.isLocked){ unlockMenu!.dismiss(animated: true, completion: nil) }
+        if(!currentSettings!.isLocked){
+            unlockMenu!.dismiss(animated: true, completion: nil)
+            for number in keypadNumbers { number.isHidden = false }
+        }
         backgroundBlur.isHidden = currentSettings!.hideBlurBackground
         currentSettings!.isLocked = true
         reloadView()
@@ -307,9 +348,24 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     }
     
 
-   
+    @objc func updateTimer(){
+        elapsedTime += 1
+        let timeRemaining = currentSettings!.timerMinutes*60 - elapsedTime
+        
+        print("\nLocking in \(timeRemaining)")
+        timerProgress.setProgress(Float(elapsedTime/(currentSettings!.timerMinutes * 60)), animated: true)
+        
+        if(timeRemaining <= 0 && !currentSettings!.isLocked){
+           doLock()
+        }
+    }
     
-    
+    func endTimer(){
+        elapsedTime = 0
+        timerProgress.setProgress(0.0,animated:true)
+        countDownTimer!.invalidate()
+        countDownTimer = nil
+    }
     
 /****** BLUETOOTH FUNCTIONS ******/
     

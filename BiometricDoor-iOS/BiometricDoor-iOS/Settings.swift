@@ -14,6 +14,7 @@ class Settings {
 
     var hideBlurItems:Bool
     var hideBlurBackground:Bool
+    var darkMode:Bool
     var cornerRadius:Float
     var masterPassword:String
     var backgroundImage:UIImage
@@ -25,12 +26,14 @@ class Settings {
     init(){
         self.hideBlurItems = true
         self.hideBlurBackground = true
+        self.darkMode = false
         self.masterPassword = "521769"
         self.backgroundImage = UIImage(named: "galaxy-iphone-wallpaper-20")!
         self.timerOn = false
         self.timerMinutes = 3
         self.isLocked = true
         self.cornerRadius = 12.5
+        
     }
     
 }
