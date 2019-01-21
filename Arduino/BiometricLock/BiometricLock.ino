@@ -58,7 +58,7 @@ int lockButton = 4;
 int buttonLED = 5;
 
 // Solenoid Lock
-int verifyLED = 6;
+int lockPin = 6;
 boolean isLocked = true;    //This should always match lockStatus. Quicker to use boolean than compare string every time
 boolean updateConfirmed = false;
 
@@ -88,7 +88,7 @@ void setup()
     }
 
   //Lock & Button initialization
-  pinMode(verifyLED,OUTPUT);
+  pinMode(lockPin,OUTPUT);
   pinMode(buttonLED,OUTPUT);
   pinMode(lockButton,INPUT_PULLUP);
   doLock();
@@ -146,7 +146,7 @@ void loop()                     // run over and over again
     Serial.print("CLEAR:succ");
     current_command = 'X';
   }
-       
+     
 
 }//End loop
 
@@ -155,7 +155,7 @@ void loop()                     // run over and over again
 //Unlock door and turn red LED off
 void doUnlock(){
    isLocked = false;
-   digitalWrite(verifyLED,LOW);
+   digitalWrite(lockPin,HIGH);
    digitalWrite(buttonLED,LOW);
 }
 
@@ -164,7 +164,7 @@ void doUnlock(){
 //Lock Door and turn red LED on
 void doLock(){ 
    isLocked = true;
-   digitalWrite(verifyLED,HIGH);
+   digitalWrite(lockPin,LOW);
    digitalWrite(buttonLED,HIGH);
 }
 

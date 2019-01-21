@@ -121,7 +121,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         if changePasswordMode { changePasswordLabel.isHidden = false }
         else { changePasswordLabel.isHidden = true }
         
-        //Draw the bubble entries
+ 
        
         
     }
@@ -291,7 +291,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
             //self.dismiss(animated:true,completion:nil)
         }))
         
-        // 5
+      
         self.present(unlockMenu!, animated: true, completion: nil)
         
      
@@ -319,7 +319,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         serial.sendMessageToDevice("U")
 
        
-        if(currentSettings!.timerOn) {
+        if(currentSettings!.timerOn && countDownTimer == nil) {
         countDownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(KeypadViewController.updateTimer), userInfo: nil, repeats: true)
         }
         if(currentSettings!.isLocked) {
