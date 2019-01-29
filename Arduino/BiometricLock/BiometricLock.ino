@@ -8,8 +8,8 @@
         
         TX ------> HM-10 RX
         RX ------> HM-10 TX
-        D2 ------> FP TX (Green) 
-        D3 ------> FP RX (Yellow)
+        D2 ------> Fingerprint TX (Green) 
+        D3 ------> Fingerprint RX (White)
         D4 ------> Button NC (Blue)
         D5 ------> Button LED (Green)
         D6 ------> Lock+ (Red)
@@ -39,14 +39,17 @@
 #include <String.h>
 #include <SoftwareSerial.h>
 
+/** Set to true if using the BiometricLock iOS (or other) mobile device. If set to false, the program will just use the fingerprint scanner and button for input.**/
+boolean useMobileApp = true;
 
 /** Change this to true to print bluetooth output to serial monitor. Must be set to false otherwise to avoid interference w/ Bluetooth**/
 boolean serial_debug = false;
 
-
 // Fingerprint Sensor
 SoftwareSerial fingerSerial(2, 3);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&fingerSerial);
+int overrideCount = 0;  // Once this reaches 3, the door will lock/unlock without waiting for a callback from the BiometricLock App, then it will reset. 
+                        // It is intended to serve as a backup mechanism for emergencies or an unexpected app crash
 
 // BLE Communication
 int incoming_command;
@@ -56,6 +59,7 @@ long loop_timer;
 //Lock Button
 int lockButton = 4;
 int buttonLED = 5;
+int prevButtonStatus = LOW;
 
 // Solenoid Lock
 int lockPin = 6;
@@ -68,9 +72,9 @@ void setup()
   
   //Serial and Bluetooth Communication Initialization
   Serial.begin(9600);
-  delay(1000);
-  Serial.print("AT+NAMEDoorLock");
-  delay(1000);
+  //delay(1000);
+  //Serial.print("AT+NAMEDoorLock");
+  //delay(1000);
 
   
   //Fingerprint scanner initialization
@@ -117,13 +121,28 @@ void loop()                     // run over and over again
 
   
    //--------MAKE DECISION--------//
-  if(id != -1 || buttonStatus == HIGH){ //Tell the phone we are unlocking/locking, the phone will then send 'U'/'L' respectively back to the Arduino. The phone must "approve" all commands before the Arduino can actually execute them
-     if(isLocked) { Serial.print("UNLOCK"); }
-     else {  Serial.print("LOCK"); }
+   
+   // If useMobileApp == true, Tell the phone we are unlocking/locking, 
+   // and the phone will then send 'U'/'L' respectively back to the Arduino, 
+   // which will unlock/lock the door. This way the app and arduino will always stay in sync 
+   // If useMobileApp == false, simply unlock/lock the door
+  if(id != -1 || (buttonStatus == HIGH && prevButtonStatus == LOW)){ 
+     overrideCount++;
+     if(isLocked) { 
+        Serial.print("UNLOCK");
+        if(!useMobileApp || overrideCount >= 3){ doUnlock(); }
+     }
+     else {   
+        Serial.print("LOCK");
+        if(!useMobileApp || overrideCount >= 3){ doLock(); }
+     }
+     
   }
+
+  // These commands are sent via Bluetooth from the BiometricLock app, but can also be triggered from the SerialMonitor
   else if(current_command == 'U'){
      doUnlock();
-     current_command = 'X';      //Acknowledge we have recieved and executed the command by setting it back to 'X' and waiting for a new command to arrive  
+     current_command = 'X';      // Acknowledge we have recieved and executed the command by setting it back to 'X' and waiting for a new command to arrive  
   }
   else if(current_command == 'L'){
      doLock();
@@ -147,16 +166,17 @@ void loop()                     // run over and over again
     current_command = 'X';
   }
      
+  prevButtonStatus = buttonStatus;  // This allows us to ensure the button was actually clicked and won't trigger an override from being held down for a split second too long
+}// End loop
 
-}//End loop
 
 
-
-//Unlock door and turn red LED off
+// Unlock door and turn red LED off
 void doUnlock(){
    isLocked = false;
    digitalWrite(lockPin,HIGH);
    digitalWrite(buttonLED,LOW);
+   overrideCount = 0;
 }
 
 
@@ -166,6 +186,7 @@ void doLock(){
    isLocked = true;
    digitalWrite(lockPin,LOW);
    digitalWrite(buttonLED,HIGH);
+   overrideCount = 0;
 }
 
 
@@ -183,7 +204,7 @@ int getFingerprintIDez() {
   return finger.fingerID; 
 }
 
-//Get the ID number from the phone
+// Get the ID number from the BiometricLock App
 int waitForIDNumber(){
    long start_time = millis(); //Start time
    int id = -1;
@@ -290,7 +311,7 @@ uint8_t addFingerPrint() {
 
 
 
-//Delete a fingerprint from the sensor using simplified Adafruit example function
+// Delete a fingerprint from the sensor using simplified Adafruit example function
 uint8_t deleteFingerPrint() {
   int p = -1;
   int id = waitForIDNumber();
