@@ -15,7 +15,6 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
     @IBOutlet var changePasswordLabel: UILabel!
     @IBOutlet weak var lockStatusImage: UIImageView!
     @IBOutlet var bubbleEntries: [UIImageView]!
-  
     @IBOutlet var keypadNumbers: [UIButton]!
     @IBOutlet weak var bluetoothImage: UIImageView!
     @IBOutlet weak var bluetoothLabel: UILabel!

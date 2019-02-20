@@ -21,27 +21,24 @@ class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
     @IBOutlet weak var fingerPrintIDLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
     @IBOutlet weak var backgroundImage: UIImageView!
-    
     @IBOutlet weak var statusUpdateLabel: UILabel!
-    
     @IBOutlet weak var goButton: UIButton!
     @IBOutlet weak var commandSegmentControl: UISegmentedControl!
-
-    
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    override func viewDidAppear(_ animated: Bool) {
         headerLabel.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
         goButton.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
         stepper.wraps = true
         fingerPrintIDLabel.text = "Finger ID:  \(Int(stepper.value))"
         backgroundImage.image = currentSettings!.backgroundImage
         drawNonExecuting()
+
         serial.delegate = self
     }
+
     
     @IBAction func stepperPressed(_ sender: Any) {
        fingerPrintIDLabel.text = "Finger ID:  \(Int(stepper.value))"

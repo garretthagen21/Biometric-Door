@@ -23,16 +23,14 @@ class TimerSettingsViewController:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    override func viewDidAppear(_ animated: Bool) {
         timerSwitch.isOn = currentSettings!.timerOn
         headerLabel.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
         stepper.wraps = true
         stepper.value = currentSettings!.timerMinutes
         timerMinutesLabel.text = "\(stepper.value) minutes"
         backgroundImage.image = currentSettings!.backgroundImage
-        
     }
+
     
     @IBAction func valueDidChange(_ sender: Any) {
          timerMinutesLabel.text = "\(stepper.value) minutes"

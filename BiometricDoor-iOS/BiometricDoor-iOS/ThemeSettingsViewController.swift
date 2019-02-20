@@ -21,19 +21,18 @@ var currentSettings:Settings?
 @IBOutlet weak var editImageButton: UIButton!
 @IBOutlet weak var headerLabel: UILabel!
     
-override func viewDidLoad() {
-    super.viewDidLoad()
-}
-override func viewDidAppear(_ animated: Bool) {
-    editImageButton.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
-    headerLabel.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
-    backgroundBlurSwitch.isOn = !currentSettings!.hideBlurBackground
-    keypadBlurSwitch.isOn = !currentSettings!.hideBlurItems
-    editImageButton.setBackgroundImage(currentSettings!.backgroundImage, for: UIControl.State.normal)
-    backgroundImage.image = currentSettings!.backgroundImage
-    darkModeSwitch.isOn = currentSettings!.darkMode
-}
-    
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        editImageButton.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
+        headerLabel.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
+        backgroundBlurSwitch.isOn = !currentSettings!.hideBlurBackground
+        keypadBlurSwitch.isOn = !currentSettings!.hideBlurItems
+        editImageButton.setBackgroundImage(currentSettings!.backgroundImage, for: UIControl.State.normal)
+        backgroundImage.image = currentSettings!.backgroundImage
+        darkModeSwitch.isOn = currentSettings!.darkMode
+    }
+
     
     @IBAction func editImageButtonPressed(_ sender: Any) {
         let photoChoiceMenu = UIAlertController(title: nil, message:"Choose Photo Source", preferredStyle: .actionSheet)
@@ -64,19 +63,19 @@ override func viewDidAppear(_ animated: Bool) {
         self.present(imageChoice,animated:true)
     }
 
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             editImageButton.setBackgroundImage(image, for: UIControl.State.normal)
         }
-
+        dismiss(animated: true,completion: nil)
     }
-    @IBAction func doneButtonPressed(_ sender: Any) {
-    currentSettings!.hideBlurBackground = !backgroundBlurSwitch.isOn
-    currentSettings!.hideBlurItems = !keypadBlurSwitch.isOn
-    currentSettings!.darkMode = darkModeSwitch.isOn
-    currentSettings!.backgroundImage = editImageButton!.currentBackgroundImage ?? currentSettings!.backgroundImage
-    self.dismiss(animated:true)
-}
     
+    @IBAction func doneButtonPressed(_ sender: Any) {
+        currentSettings!.hideBlurBackground = !backgroundBlurSwitch.isOn
+        currentSettings!.hideBlurItems = !keypadBlurSwitch.isOn
+        currentSettings!.darkMode = darkModeSwitch.isOn
+        currentSettings!.backgroundImage = editImageButton!.currentBackgroundImage ?? currentSettings!.backgroundImage
+        self.dismiss(animated:true)
+    }
     
 }

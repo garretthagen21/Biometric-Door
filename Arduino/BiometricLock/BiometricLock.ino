@@ -11,7 +11,7 @@
         D2 ------> Fingerprint TX (Green) 
         D3 ------> Fingerprint RX (White)
         D4 ------> Button NC (Blue)
-        D5 ------> Button LED (Green)
+        D5 ------> Button LED (Yellow)
         D6 ------> Lock+ (Red)
         5V ------> HM-10 VCC
         3v3 -----> FP VCC
@@ -112,13 +112,12 @@ void loop()                     // run over and over again
      }
     }
     
-  
-  
-  //--------CHECK FINGERPRINT SENSOR--------//
-  int id = getFingerprintIDez();
-  int actionId = finger.getTemplateCount()+1;
-  int buttonStatus = digitalRead(lockButton);
 
+
+  //--------CHECK FINGERPRINT SENSOR--------//
+  int id = getFingerprintIDez(); 
+  int buttonStatus = digitalRead(lockButton);
+    
   
    //--------MAKE DECISION--------//
    
@@ -161,13 +160,14 @@ void loop()                     // run over and over again
   else if(current_command == 'C'){
     finger.emptyDatabase();
     Serial.print("CLEAR:1");
-    delay(1000);
+    //delay(1000);
     Serial.print("CLEAR:succ");
     current_command = 'X';
   }
      
-  prevButtonStatus = buttonStatus;  // This allows us to ensure the button was actually clicked and won't trigger an override from being held down for a split second too long
-}// End loop
+  //prevButtonStatus = buttonStatus;  // This allows us to ensure the button was actually clicked and won't trigger an override from being held down for a split second too long
+
+} // End loop
 
 
 
@@ -248,8 +248,7 @@ uint8_t addFingerPrint() {
       Serial.print("ADD:2");
       break;
     default:
-      //Serial.println("ADD:err");
-      return p;
+     break;
   }
   delay(1000);
   Serial.print("ADD:remove");
@@ -293,7 +292,7 @@ uint8_t addFingerPrint() {
     Serial.print("ADD:5");
   } 
   else {
-    return p;
+    return -1;
   }
   
   
@@ -303,10 +302,10 @@ uint8_t addFingerPrint() {
     Serial.println("ADD:6");
   } 
   else {
-    return p;
+    return -1;
   }   
   delay(1000);
-  return 1;
+  return 1; // ODO: Return p for specific fingerprint. As of now we only care about success or failure
 }
 
 
