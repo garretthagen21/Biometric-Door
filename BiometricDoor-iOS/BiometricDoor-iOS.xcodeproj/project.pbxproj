@@ -11,7 +11,6 @@
 		0603E1B521EEF14900AEDC8D /* ManageFingerprintsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0603E1B421EEF14900AEDC8D /* ManageFingerprintsViewController.swift */; };
 		06792E8F21ED99E100246E5A /* TimerSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06792E8E21ED99E100246E5A /* TimerSettingsViewController.swift */; };
 		069B409021E6A2B60046512E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069B408F21E6A2B60046512E /* Settings.swift */; };
-		069B409421E6B56A0046512E /* UnlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069B409321E6B56A0046512E /* UnlockedViewController.swift */; };
 		06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE1FC21E5206200445D3A /* AppDelegate.swift */; };
 		06EBE1FF21E5206200445D3A /* KeypadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EBE1FE21E5206200445D3A /* KeypadViewController.swift */; };
 		06EBE20221E5206200445D3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06EBE20021E5206200445D3A /* Main.storyboard */; };
@@ -44,7 +43,6 @@
 		0603E1B421EEF14900AEDC8D /* ManageFingerprintsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageFingerprintsViewController.swift; sourceTree = "<group>"; };
 		06792E8E21ED99E100246E5A /* TimerSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingsViewController.swift; sourceTree = "<group>"; };
 		069B408F21E6A2B60046512E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		069B409321E6B56A0046512E /* UnlockedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockedViewController.swift; sourceTree = "<group>"; };
 		06EBE1F921E5206200445D3A /* BiometricDoor-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BiometricDoor-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06EBE1FC21E5206200445D3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06EBE1FE21E5206200445D3A /* KeypadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadViewController.swift; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				06EBE1FC21E5206200445D3A /* AppDelegate.swift */,
-				069B409321E6B56A0046512E /* UnlockedViewController.swift */,
 				06EBE1FE21E5206200445D3A /* KeypadViewController.swift */,
 				069B408F21E6A2B60046512E /* Settings.swift */,
 				0603E1B221EE977200AEDC8D /* ThemeSettingsViewController.swift */,
@@ -275,7 +272,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0603E1B321EE977200AEDC8D /* ThemeSettingsViewController.swift in Sources */,
-				069B409421E6B56A0046512E /* UnlockedViewController.swift in Sources */,
 				06EBE1FF21E5206200445D3A /* KeypadViewController.swift in Sources */,
 				06EBE1FD21E5206200445D3A /* AppDelegate.swift in Sources */,
 				0603E1B521EEF14900AEDC8D /* ManageFingerprintsViewController.swift in Sources */,

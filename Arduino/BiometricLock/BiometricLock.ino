@@ -70,26 +70,25 @@ boolean updateConfirmed = false;
 void setup()  
 {
   
-  //Serial and Bluetooth Communication Initialization
+  //Serial/Bluetooth Communication Initialization
   Serial.begin(9600);
-  //delay(1000);
-  //Serial.print("AT+NAMEDoorLock");
-  //delay(1000);
 
-  
   //Fingerprint scanner initialization
   finger.begin(57600); 
-  if (finger.verifyPassword() && serial_debug) { 
-    if(serial_debug){
-    Serial.print("Sensor contains "); 
-    finger.getTemplateCount();
-    Serial.print(finger.templateCount); 
-    Serial.println(" templates");
+  boolean foundScanner = finger.verifyPassword();
+  if (serial_debug) { 
+    if(foundScanner){
+       Serial.print("Sensor contains "); 
+      finger.getTemplateCount();
+      Serial.print(finger.templateCount); 
+      Serial.println(" templates");
     }
+     else { 
+       Serial.println("Did not find fingerprint sensor.");    //This should never execute 
+    }
+  
   }
-  else { 
-      if(serial_debug){ Serial.println("Did not find fingerprint sensor."); }    //This should never execute 
-    }
+ 
 
   //Lock & Button initialization
   pinMode(lockPin,OUTPUT);
@@ -105,11 +104,10 @@ void loop()                     // run over and over again
    //--------READ INCOMING COMMAND TO SEE IF WE SHOULD UNLOCK VIA PASSCODE--------//
     if (Serial.available()){
      incoming_command = Serial.read();
-     if(serial_debug){ Serial.println("Bluetooth is ready"); }
-        if(isWhitespace(incoming_command) == false){
-            current_command = incoming_command;
-        if(serial_debug) { Serial.println(current_command); }
-     }
+      if(isWhitespace(incoming_command) == false){
+          current_command = incoming_command;
+          if(serial_debug) Serial.println(current_command); 
+      }
     }
     
 
@@ -122,7 +120,7 @@ void loop()                     // run over and over again
    //--------MAKE DECISION--------//
    
    // If useMobileApp == true, Tell the phone we are unlocking/locking, 
-   // and the phone will then send 'U'/'L' respectively back to the Arduino, 
+   // and the phone will then send 'UNLOCK'/'LOCK' respectively back to the Arduino, 
    // which will unlock/lock the door. This way the app and arduino will always stay in sync 
    // If useMobileApp == false, simply unlock/lock the door
   if(id != -1 || (buttonStatus == HIGH && prevButtonStatus == LOW)){ 
@@ -159,8 +157,6 @@ void loop()                     // run over and over again
   }
   else if(current_command == 'C'){
     finger.emptyDatabase();
-    Serial.print("CLEAR:1");
-    //delay(1000);
     Serial.print("CLEAR:succ");
     current_command = 'X';
   }
@@ -211,7 +207,7 @@ int waitForIDNumber(){
     while(id < 1){
       id = Serial.parseInt();
    
-      if(millis() - start_time >= 5000){ //Allow 3 seconds maximum to set the offset values before giving up
+      if(millis() - start_time >= 5000){ 
         break;
       }
      
@@ -305,7 +301,7 @@ uint8_t addFingerPrint() {
     return -1;
   }   
   delay(1000);
-  return 1; // ODO: Return p for specific fingerprint. As of now we only care about success or failure
+  return 1; // TODO: Return p for specific fingerprint. As of now we only care about success or failure
 }
 
 

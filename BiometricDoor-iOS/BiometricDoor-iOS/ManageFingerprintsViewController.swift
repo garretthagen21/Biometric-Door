@@ -14,6 +14,13 @@ import UIKit
 
 class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
     
+    enum UIState
+    {
+        case idle
+        case active
+    }
+    
+    
     var selectedPeripheral:CBPeripheral?
     var currentSettings:Settings?
     
@@ -32,13 +39,32 @@ class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
         headerLabel.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
         goButton.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
         stepper.wraps = true
-        fingerPrintIDLabel.text = "Finger ID:  \(Int(stepper.value))"
         backgroundImage.image = currentSettings!.backgroundImage
-        drawNonExecuting()
+        stepperPressed(self)
+        drawUIState(state: .idle)
 
         serial.delegate = self
     }
 
+    func drawUIState(state: UIState)
+    {
+        switch(state)
+        {
+        case .idle:
+            statusUpdateLabel.text = ""
+            goButton.isHidden = false
+            statusUpdateLabel.isHidden = true
+            doneButton.isEnabled = true
+            stepper.isEnabled = true
+            progressView.isHidden = true
+        case .active:
+            goButton.isHidden = true
+            statusUpdateLabel.isHidden = false
+            doneButton.isEnabled = false
+            stepper.isEnabled = false
+            progressView.isHidden = false
+        }
+    }
     
     @IBAction func stepperPressed(_ sender: Any) {
        fingerPrintIDLabel.text = "Finger ID:  \(Int(stepper.value))"
@@ -46,17 +72,19 @@ class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
     
     
     @IBAction func goButtonPressed(_ sender: Any) {
-       let id = String(Int(stepper.value))
-        drawExecuting()
+        let id = String(Int(stepper.value))
+        
+        progressView.setProgress(0.0, animated: false)
+        drawUIState(state: .active)
         
         
         switch(commandSegmentControl.selectedSegmentIndex){
             case 0:
-                serial.sendMessageToDevice("ADD")
+                serial.sendMessageToDevice("A")
             case 1:
-                serial.sendMessageToDevice("DEL")
+                serial.sendMessageToDevice("D")
             case 2:
-                serial.sendMessageToDevice("CLEAR")
+                serial.sendMessageToDevice("C")
             default:
             return
         }
@@ -67,30 +95,12 @@ class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
     @IBAction func doneButtonPressed(_ sender: Any) {
         self.dismiss(animated: true)
     }
-    func drawExecuting(){
-        goButton.isHidden = true
-        statusUpdateLabel.isHidden = false
-        doneButton.isEnabled = false
-        stepper.isEnabled = false
-        progressView.isHidden = false
-    }
-    
-    func drawNonExecuting(){
-        statusUpdateLabel.text = ""
-        goButton.isHidden = false
-        statusUpdateLabel.isHidden = true
-        doneButton.isEnabled = true
-        stepper.isEnabled = true
-        progressView.setProgress(0.0, animated: true)
-        progressView.isHidden = true
-    }
+   
     
     func serialDidReceiveString(_ message: String) {
         
         let incomingString = message.components(separatedBy: ":")
         if incomingString.count != 2{
-            print("Invalid data string: ")
-            print(message)
             return
         }
         guard let incomingCommand:String = incomingString[0] else {return}
@@ -111,16 +121,17 @@ class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
     
     func showAddProgress(data:String){
         switch(data){
-        case "place":
-                statusUpdateLabel.text = "Place Finger on Fingerprint Scanner"
-        case "remove":
-                statusUpdateLabel.text = "Remove Finger from Fingerprint Scanner"
-        case "succ":
-             oneOptionAlert(title: "Success", message: "Successfully added fingerprint for ID: \(Int(stepper.value))", option: "Dismiss")
-            drawNonExecuting()
-        case "fail":
-            statusUpdateLabel.text = "Failed to add fingerprint for ID: \(stepper.value)"
-            drawNonExecuting()
+            case "place":
+                    statusUpdateLabel.text = "Place Finger on Fingerprint Scanner"
+            case "remove":
+                    statusUpdateLabel.text = "Remove Finger from Fingerprint Scanner"
+            case "succ":
+                 progressView.setProgress(1.0,animated: true)
+                 oneOptionAlert(title: "Success", message: "Successfully added fingerprint for ID: \(Int(stepper.value))", option: "Dismiss")
+                 drawUIState(state: .idle)
+            case "fail":
+                oneOptionAlert(title: "Fail", message: "Failed to add fingerprint for ID: \(Int(stepper.value))", option: "Dismiss")
+                drawUIState(state: .idle)
         default:
             let progress = Float32(data) ?? 0.0
             progressView.setProgress(progress/6.0,animated: true)
@@ -132,11 +143,12 @@ class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
         switch(data){
        
         case "succ":
+            progressView.setProgress(1.0,animated: true)
             oneOptionAlert(title: "Success", message: "Successfully deleted fingerprint for ID: \(Int(stepper.value))", option: "Dismiss")
-            drawNonExecuting()
+            drawUIState(state: .idle)
         case "fail":
-            statusUpdateLabel.text = "Failed to delete fingerprint for ID: \(Int(stepper.value))"
-            drawNonExecuting()
+            oneOptionAlert(title: "Fail", message: "Failed to delete fingerprint for ID: \(Int(stepper.value))", option: "Dismiss")
+            drawUIState(state: .idle)
         default:
             let progress = Float32(data) ?? 0.0
             progressView.setProgress(progress/1.0,animated: true)
@@ -147,11 +159,12 @@ class ManageFingerprintsViewController:UIViewController,BluetoothSerialDelegate{
         switch(data){
             
         case "succ":
+            progressView.setProgress(1.0,animated: true)
             oneOptionAlert(title: "Success", message: "Successfully cleared all fingerprints from Fingerprint Scanner", option: "Dismiss")
-            drawNonExecuting()
+            drawUIState(state: .idle)
         case "fail":
             statusUpdateLabel.text = "Failed to clear all fingerprints from Fingerprint Scanner"
-            drawNonExecuting()
+            drawUIState(state: .idle)
         default:
             let progress = Float32(data) ?? 0.0
             progressView.setProgress(progress/1.0,animated: true)
