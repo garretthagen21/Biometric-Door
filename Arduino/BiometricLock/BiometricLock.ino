@@ -43,7 +43,7 @@
 boolean useMobileApp = true;
 
 /** Change this to true to print bluetooth output to serial monitor. Must be set to false otherwise to avoid interference w/ Bluetooth**/
-boolean serial_debug = false;
+boolean serialDebug = false;
 
 // Fingerprint Sensor
 SoftwareSerial fingerSerial(2, 3);
@@ -54,17 +54,17 @@ int overrideCount = 0;  // Once this reaches 3, the door will lock/unlock withou
 // BLE Communication
 int incoming_command;
 int current_command = 'X';
-long loop_timer;
+long loopTimer;
 
-//Lock Button
+// Lock Button
 int lockButton = 4;
 int buttonLED = 5;
 int prevButtonStatus = LOW;
 
 // Solenoid Lock
 int lockPin = 6;
-boolean isLocked = true;    //This should always match lockStatus. Quicker to use boolean than compare string every time
-boolean updateConfirmed = false;
+boolean isLocked = true;    //This should always match lockStatus. Quicker to use boolean than to compare string every time
+
 
 
 void setup()  
@@ -76,15 +76,15 @@ void setup()
   //Fingerprint scanner initialization
   finger.begin(57600); 
   boolean foundScanner = finger.verifyPassword();
-  if (serial_debug) { 
+  if (serialDebug) { 
     if(foundScanner){
-       Serial.print("Sensor contains "); 
+      Serial.print("Sensor contains "); 
       finger.getTemplateCount();
       Serial.print(finger.templateCount); 
       Serial.println(" templates");
     }
      else { 
-       Serial.println("Did not find fingerprint sensor.");    //This should never execute 
+       Serial.println("Did not find fingerprint sensor.");    // This should never execute 
     }
   
   }
@@ -98,15 +98,15 @@ void setup()
   
 }//End setup
 
-void loop()                     // run over and over again
+void loop()                   
 {
    
-   //--------READ INCOMING COMMAND TO SEE IF WE SHOULD UNLOCK VIA PASSCODE--------//
+   //-------- READ INCOMING COMMAND TO SEE IF WE SHOULD UNLOCK VIA PASSCODE --------//
     if (Serial.available()){
      incoming_command = Serial.read();
       if(isWhitespace(incoming_command) == false){
           current_command = incoming_command;
-          if(serial_debug) Serial.println(current_command); 
+          if(serialDebug) Serial.println(current_command); 
       }
     }
     
@@ -121,13 +121,14 @@ void loop()                     // run over and over again
    
    // If useMobileApp == true, Tell the phone we are unlocking/locking, 
    // and the phone will then send 'UNLOCK'/'LOCK' respectively back to the Arduino, 
-   // which will unlock/lock the door. This way the app and arduino will always stay in sync 
-   // If useMobileApp == false, simply unlock/lock the door
+   // which will unlock/lock the door. This way the app and arduino will always stay in sync. 
+   // Note: if useMobileApp == false or the button/fingerprint sensor has been triggered 3 times
+   // without response from the app, simply unlock/lock the door.
   if(id != -1 || (buttonStatus == HIGH && prevButtonStatus == LOW)){ 
      overrideCount++;
      if(isLocked) { 
         Serial.print("UNLOCK");
-        if(!useMobileApp || overrideCount >= 3){ doUnlock(); }
+        if(!useMobileApp || overrideCount >= 3){ doUnlock(); }  
      }
      else {   
         Serial.print("LOCK");
@@ -161,7 +162,7 @@ void loop()                     // run over and over again
     current_command = 'X';
   }
      
-  //prevButtonStatus = buttonStatus;  // This allows us to ensure the button was actually clicked and won't trigger an override from being held down for a split second too long
+  prevButtonStatus = buttonStatus;  // This allows us to ensure the button was actually clicked and won't trigger an override from being held down for a split second too long
 
 } // End loop
 
@@ -174,7 +175,6 @@ void doUnlock(){
    digitalWrite(buttonLED,LOW);
    overrideCount = 0;
 }
-
 
 
 //Lock Door and turn red LED on
@@ -212,13 +212,13 @@ int waitForIDNumber(){
       }
      
     }
-    if (serial_debug) { Serial.print("ID found: "); Serial.print(id); Serial.println(); }
+    if (serialDebug) { Serial.print("ID found: "); Serial.print(id); Serial.println(); }
     return id;
 }
 
 
 //Enroll/overwrite finger print using simplified Adafruit example function
-uint8_t addFingerPrint() {
+int addFingerPrint() {
   int p = -1;
   int id = waitForIDNumber();
   if (id < 1) { return p; }
@@ -301,13 +301,13 @@ uint8_t addFingerPrint() {
     return -1;
   }   
   delay(1000);
-  return 1; // TODO: Return p for specific fingerprint. As of now we only care about success or failure
+  return 1; // TODO: Return p for specific fingerprint on unlock. As of now we only care about success or failure
 }
 
 
 
 // Delete a fingerprint from the sensor using simplified Adafruit example function
-uint8_t deleteFingerPrint() {
+int deleteFingerPrint() {
   int p = -1;
   int id = waitForIDNumber();
   if (id < 1) { return p; }
