@@ -120,18 +120,18 @@ void loop()
    //--------MAKE DECISION--------//
    
    // If useMobileApp == true, Tell the phone we are unlocking/locking, 
-   // and the phone will then send 'UNLOCK'/'LOCK' respectively back to the Arduino, 
-   // which will unlock/lock the door. This way the app and arduino will always stay in sync. 
-   // Note: if useMobileApp == false or the button/fingerprint sensor has been triggered 3 times
-   // without response from the app, simply unlock/lock the door.
+   // and the phone will then send 'UNLOCK'/'LOCK' with the id of the fingerprint (if applicable)
+   // respectively back to the Arduino, which will unlock/lock the door. This way the app and arduino 
+   // will always stay in sync. Note: if useMobileApp == false or the button/fingerprint sensor has 
+   // been triggered 3 times without response from the app, simply unlock/lock the door.
   if(id != -1 || (buttonStatus == HIGH && prevButtonStatus == LOW)){ 
      overrideCount++;
      if(isLocked) { 
-        Serial.print("UNLOCK");
+        Serial.print("UNLOCK:"+String(id));
         if(!useMobileApp || overrideCount >= 3){ doUnlock(); }  
      }
      else {   
-        Serial.print("LOCK");
+        Serial.print("LOCK:"+String(id));
         if(!useMobileApp || overrideCount >= 3){ doLock(); }
      }
      

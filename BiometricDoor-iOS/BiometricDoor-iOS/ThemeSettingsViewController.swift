@@ -11,26 +11,28 @@ import UIKit
 
 class ThemeSettingsViewController:UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
-var currentSettings:Settings?
     
-    
-@IBOutlet weak var backgroundImage: UIImageView!
-@IBOutlet weak var backgroundBlurSwitch: UISwitch!
-@IBOutlet weak var keypadBlurSwitch: UISwitch!
-@IBOutlet weak var darkModeSwitch: UISwitch!
-@IBOutlet weak var editImageButton: UIButton!
-@IBOutlet weak var headerLabel: UILabel!
+    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var backgroundBlurSwitch: UISwitch!
+    @IBOutlet weak var keypadBlurSwitch: UISwitch!
+    @IBOutlet weak var darkModeSwitch: UISwitch!
+    @IBOutlet weak var editImageButton: UIButton!
+    @IBOutlet weak var headerLabel: UILabel!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        editImageButton.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
-        headerLabel.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
-        backgroundBlurSwitch.isOn = !currentSettings!.hideBlurBackground
-        keypadBlurSwitch.isOn = !currentSettings!.hideBlurItems
-        editImageButton.setBackgroundImage(currentSettings!.backgroundImage, for: UIControl.State.normal)
-        backgroundImage.image = currentSettings!.backgroundImage
-        darkModeSwitch.isOn = currentSettings!.darkMode
+        editImageButton.layer.cornerRadius = CGFloat(Settings.cornerRadius)
+        headerLabel.layer.cornerRadius = CGFloat(Settings.cornerRadius)
+       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        backgroundBlurSwitch.isOn = !Settings.hideBlurBackground
+        keypadBlurSwitch.isOn = !Settings.hideBlurItems
+        editImageButton.setBackgroundImage(Settings.backgroundImage, for: UIControl.State.normal)
+        backgroundImage.image = Settings.backgroundImage
+        darkModeSwitch.isOn = Settings.darkMode
     }
 
     
@@ -71,10 +73,10 @@ var currentSettings:Settings?
     }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
-        currentSettings!.hideBlurBackground = !backgroundBlurSwitch.isOn
-        currentSettings!.hideBlurItems = !keypadBlurSwitch.isOn
-        currentSettings!.darkMode = darkModeSwitch.isOn
-        currentSettings!.backgroundImage = editImageButton!.currentBackgroundImage ?? currentSettings!.backgroundImage
+        Settings.hideBlurBackground = !backgroundBlurSwitch.isOn
+        Settings.hideBlurItems = !keypadBlurSwitch.isOn
+        Settings.darkMode = darkModeSwitch.isOn
+        Settings.backgroundImage = editImageButton!.currentBackgroundImage ?? Settings.backgroundImage
         self.dismiss(animated:true)
     }
     

@@ -16,6 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // If this is the first time launching set our defaults
+        if UIApplication.isFirstLaunch()
+        {
+            Settings.resetToDefaults()
+        }
+        
         return true
     }
 
@@ -41,7 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
 }
 
+extension UIApplication {
+    class func isFirstLaunch() -> Bool {
+        if !UserDefaults.standard.bool(forKey: "hasLaunchedAtleastOnce") {
+            UserDefaults.standard.set(true, forKey: "hasLaunchedAtleastOnce")
+            return true
+        }
+        return false
+    }
+}

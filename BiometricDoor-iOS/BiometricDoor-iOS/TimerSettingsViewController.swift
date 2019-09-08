@@ -23,12 +23,16 @@ class TimerSettingsViewController:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        timerSwitch.isOn = currentSettings!.timerOn
-        headerLabel.layer.cornerRadius = CGFloat(currentSettings!.cornerRadius)
+     
+        headerLabel.layer.cornerRadius = CGFloat(Settings.cornerRadius)
         stepper.wraps = true
-        stepper.value = currentSettings!.timerMinutes
+     
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        timerSwitch.isOn = Settings.timerOn
+        stepper.value = Settings.timerMinutes
         timerMinutesLabel.text = "\(stepper.value) minutes"
-        backgroundImage.image = currentSettings!.backgroundImage
+        backgroundImage.image = Settings.backgroundImage
     }
 
     
@@ -39,8 +43,8 @@ class TimerSettingsViewController:UIViewController{
   
 
     @IBAction func doneButtonPressed(_ sender: Any) {
-        currentSettings!.timerOn = timerSwitch.isOn
-        currentSettings!.timerMinutes = stepper.value
+        Settings.timerOn = timerSwitch.isOn
+        Settings.timerMinutes = stepper.value
         self.dismiss(animated:true,completion: nil)
     }
     
