@@ -392,16 +392,10 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         reloadView()
     }
     func serialIsReady(_ peripheral: CBPeripheral) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadStartViewController"), object: self)
-        dismiss(animated: true, completion: nil)
         reloadView()
     }
     
     func serialDidChangeState() {
-        if serial.centralManager.state != .poweredOn {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadStartViewController"), object: self)
-            dismiss(animated: true, completion: nil)
-        }
         reloadView()
     }
     
@@ -409,7 +403,7 @@ final class KeypadViewController: UIViewController, UITextFieldDelegate, Bluetoo
         
         //print(peripheral.name)
         //if targetPeripheral != nil{ return }
-        
+     
         if (peripheral.name == "DoorLock" || peripheral.name == "DSD TECH"){
             targetPeripheral = peripheral
             serial.stopScan()
