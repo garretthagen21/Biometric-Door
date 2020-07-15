@@ -50,26 +50,26 @@
                                         </view>
                                         <blurEffect style="dark"/>
                                     </visualEffectView>
-                                    <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FCO-sD-Ht5" userLabel="Bubble Stack">
+                                    <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCO-sD-Ht5" userLabel="Bubble Stack">
                                         <rect key="frame" x="35" y="150" width="250" height="27"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-circle-outline-100" translatesAutoresizingMaskIntoConstraints="NO" id="QsO-sQ-cuP">
-                                                <rect key="frame" x="0.0" y="0.0" width="33.5" height="27"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="27.5" height="27"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-circle-outline-100" translatesAutoresizingMaskIntoConstraints="NO" id="AOO-gG-x5z">
-                                                <rect key="frame" x="43.5" y="0.0" width="33" height="27"/>
+                                                <rect key="frame" x="44.5" y="0.0" width="27.5" height="27"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-circle-outline-100" translatesAutoresizingMaskIntoConstraints="NO" id="4b8-xK-awZ">
-                                                <rect key="frame" x="86.5" y="0.0" width="33.5" height="27"/>
+                                                <rect key="frame" x="89" y="0.0" width="27.5" height="27"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-circle-outline-100" translatesAutoresizingMaskIntoConstraints="NO" id="jxh-cn-v7g">
-                                                <rect key="frame" x="130" y="0.0" width="33.5" height="27"/>
+                                                <rect key="frame" x="133.5" y="0.0" width="27.5" height="27"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-circle-outline-100" translatesAutoresizingMaskIntoConstraints="NO" id="5L2-Ge-8JQ">
-                                                <rect key="frame" x="173.5" y="0.0" width="33" height="27"/>
+                                                <rect key="frame" x="178" y="0.0" width="27.5" height="27"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-circle-outline-100" translatesAutoresizingMaskIntoConstraints="NO" id="66d-DV-gU4">
-                                                <rect key="frame" x="216.5" y="0.0" width="33.5" height="27"/>
+                                                <rect key="frame" x="222.5" y="0.0" width="27.5" height="27"/>
                                             </imageView>
                                         </subviews>
                                         <constraints>

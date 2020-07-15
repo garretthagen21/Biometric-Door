@@ -53,7 +53,7 @@ class ThemeSettingsViewController:UIViewController,UINavigationControllerDelegat
         self.present(photoChoiceMenu,animated:true)
         
     }
-   
+    
     
     func doImagePicking(sourceChoice:String){
         let imageChoice = UIImagePickerController()
@@ -61,23 +61,39 @@ class ThemeSettingsViewController:UIViewController,UINavigationControllerDelegat
         if sourceChoice == "Camera" { imageChoice.sourceType = UIImagePickerController.SourceType.camera }
         else { imageChoice.sourceType = UIImagePickerController.SourceType.photoLibrary }
         
-        imageChoice.allowsEditing = false
-        self.present(imageChoice,animated:true)
+        imageChoice.allowsEditing = true
+        present(imageChoice,animated:true)
     }
-
-    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage{
-            editImageButton.setBackgroundImage(image, for: UIControl.State.normal)
+    
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // Local variable inserted by Swift 4.2 migrator.
+        // let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                editImageButton.setBackgroundImage(image, for: UIControl.State.normal)
+                Settings.backgroundImage = image
+                print("Edited Image Set!")
         }
-        dismiss(animated: true,completion: nil)
+        else if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+               editImageButton.setBackgroundImage(image, for: UIControl.State.normal)
+                Settings.backgroundImage = image
+               print("Original Image Set!")
+        } else{
+               print("Something went wrong with the image")
+        }
+        dismiss(animated:true,completion:nil)
     }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
         Settings.hideBlurBackground = !backgroundBlurSwitch.isOn
         Settings.hideBlurItems = !keypadBlurSwitch.isOn
         Settings.darkMode = darkModeSwitch.isOn
-        Settings.backgroundImage = editImageButton!.currentBackgroundImage ?? Settings.backgroundImage
+        // Settings.backgroundImage = editImageButton!.currentBackgroundImage ?? Settings.backgroundImage
         self.dismiss(animated:true)
     }
     
+}
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+    return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
